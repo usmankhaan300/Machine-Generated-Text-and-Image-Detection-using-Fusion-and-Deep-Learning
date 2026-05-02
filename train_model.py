@@ -21,8 +21,8 @@ from tqdm import tqdm  # LIVE PROGRESS BAR IMPORT
 
 # --- MOUNT GOOGLE DRIVE ---
 from google.colab import drive
-drive.mount('/content/drive', force_remount=True)
-print("✅ Google Drive Mounted Successfully!")
+#drive.mount('/content/drive', force_remount=True)
+print(" Google Drive Mounted Successfully!")
 
 try:
     from transformers import AutoTokenizer, AutoModel
@@ -32,18 +32,18 @@ except ImportError:
     from transformers import AutoTokenizer, AutoModel
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"🚀 V14 SOTA BENCHMARK LOOP INITIALIZED ON {device.type.upper()}")
+print(f" V14 SOTA BENCHMARK LOOP INITIALIZED ON {device.type.upper()}")
 
 # ------------------------------------------
 # 1. LOAD GAN-BALANCED DATASET
 # ------------------------------------------
-source_real = '/content/drive/MyDrive/GAN_Balanced_Dataset/Real'
-source_fake = '/content/drive/MyDrive/GAN_Balanced_Dataset/Fake'
+#source_real = '/content/drive/MyDrive/GAN_Balanced_Dataset/Real'
+#source_fake = '/content/drive/MyDrive/GAN_Balanced_Dataset/Fake'
 
 all_real = glob.glob(f"{source_real}/*.npy")
 all_fake = glob.glob(f"{source_fake}/*.npy")
 
-df = pd.read_csv('/content/drive/MyDrive/Final_Thesis_Dataset_Real_Fake.csv')
+#df = pd.read_csv('/content/drive/MyDrive/Final_Thesis_Dataset_Real_Fake.csv')
 df['content'] = df['content'].astype(str)
 df = df.dropna(subset=['content', 'label'])
 
@@ -180,7 +180,7 @@ combinations = [
 
 for img_model, txt_model in combinations:
     print(f"\n" + "="*60)
-    print(f"🌟 SOTA INITIALIZING: [ {img_model} + {txt_model} ]")
+    print(f" SOTA INITIALIZING: [ {img_model} + {txt_model} ]")
     print(f"="*60)
 
     tokenizer_name = 'bert-base-uncased' if txt_model == 'BERT' else 'roberta-base'
@@ -251,12 +251,12 @@ for img_model, txt_model in combinations:
         history['val_loss'].append(avg_val_loss)
 
         scheduler.step()
-        print(f"✅ Epoch {epoch+1}/{EPOCHS} | Train Acc: {train_acc:.2f}% | Val Acc: {val_acc:.2f}% | Val Loss: {avg_val_loss:.4f}")
+        print(f" Epoch {epoch+1}/{EPOCHS} | Train Acc: {train_acc:.2f}% | Val Acc: {val_acc:.2f}% | Val Loss: {avg_val_loss:.4f}")
 
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
             torch.save(model.state_dict(), save_path)
-            print(f"   💾 Saved Best {img_model}+{txt_model} to Drive!")
+            print(f"    Saved Best {img_model}+{txt_model} to Drive!")
 
     sns.set_theme(style="whitegrid")
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
@@ -277,10 +277,10 @@ for img_model, txt_model in combinations:
 
     plt.savefig(f'Learning_Curve_FINAL_{img_model}_{txt_model}.png', dpi=300)
     plt.show()
-    print(f"🎉 Completed {img_model} + {txt_model}.\n")
+    print(f" Completed {img_model} + {txt_model}.\n")
 
     del model, optimizer, scaler, scheduler, train_loader, val_loader
     torch.cuda.empty_cache()
     gc.collect()
 
-print("🏆 ALL 6 FINAL SOTA BENCHMARKS COMPLETED SUCCESSFULLY!")
+print(" ALL 6 FINAL SOTA BENCHMARKS COMPLETED SUCCESSFULLY!")
